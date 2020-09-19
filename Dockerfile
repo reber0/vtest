@@ -9,6 +9,7 @@ ENV LOCALIP 127.0.0.1
 
 ADD requirements.txt /tmp/requirements.txt
 ADD vtest.py /app/vtest.py
+ADD static /app/static
 
 RUN pip install -r /tmp/requirements.txt
 RUN export PASSWORD=$(python2 -c "import random,string;print(''.join([random.choice(string.ascii_letters) for _ in range(32)]).encode());")
