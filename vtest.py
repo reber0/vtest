@@ -498,9 +498,15 @@ def http_log(path):
         for k,v in request.form.items():
             post_data += k+'='+v+'&'
         post_data = post_data[:-1]
+
+    try:
+        remote_addr = request.headers['X-Forwarded-For'].split(',')[0]
+    except:
+        remote_addr = request.remote_addr
+
     args = [
         request.url,
-        json.dumps(dict(request.headers)), post_data, request.remote_addr
+        json.dumps(dict(request.headers)), post_data, remote_addr
     ]
     # print(request.url, post_data, request.remote_addr, dict(request.headers))
     sql = "INSERT INTO http_log (url,headers,data,ip,insert_time) VALUES(?, ?, ?, ?, datetime(CURRENT_TIMESTAMP,'localtime'))"
